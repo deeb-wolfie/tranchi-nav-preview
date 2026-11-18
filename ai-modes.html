@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tranchi AI — All AI Modes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #0a0f1a; color: #fff; }
+
+.top-bar { background: linear-gradient(90deg, #0d1420, #111d2e); text-align: center; padding: 10px 20px; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.top-bar span { color: #94a3b8; }
+.top-bar .hl { color: #22c55e; font-weight: 600; }
+
+.hero { text-align: center; padding: 60px 20px 40px; max-width: 800px; margin: 0 auto; }
+.hero-badge { display: inline-block; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: #c9a84c; font-size: 11px; font-weight: 700; padding: 5px 16px; border-radius: 20px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+.hero h1 { font-size: 42px; font-weight: 900; line-height: 1.1; margin-bottom: 16px; }
+.hero h1 .g { color: #c9a84c; }
+.hero p { color: #94a3b8; font-size: 16px; line-height: 1.7; max-width: 600px; margin: 0 auto; }
+
+.badge-new { background: #22c55e; color: #0a0f1a; font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; margin-left: 6px; vertical-align: middle; }
+.badge-key { background: #c9a84c; color: #0a0f1a; font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; margin-left: 6px; vertical-align: middle; }
+.badge-hot { background: #ef4444; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; margin-left: 6px; vertical-align: middle; }
+
+/* MODES GRID */
+.section { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+.section-label { font-size: 11px; font-weight: 700; color: #c9a84c; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+.section-title { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+.section-title .g { color: #c9a84c; }
+.section-sub { color: #94a3b8; font-size: 14px; margin-bottom: 30px; }
+
+.modes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 50px; }
+.mode-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 28px 24px; transition: all 0.2s; }
+.mode-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+.mode-card.featured { border: 2px solid rgba(201,168,76,0.4); background: rgba(201,168,76,0.03); }
+.mc-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.mc-icon { font-size: 28px; }
+.mc-title { font-size: 18px; font-weight: 800; }
+.mc-desc { font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 14px; }
+.mc-features { list-style: none; padding: 0; }
+.mc-features li { display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; font-size: 13px; color: #e2e8f0; }
+.mc-features li .check { color: #22c55e; flex-shrink: 0; }
+.mc-stat { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); }
+.mc-stat span { font-size: 12px; color: #c9a84c; font-weight: 600; }
+
+/* FULL WIDTH CARD */
+.mode-card-full { grid-column: 1 / -1; }
+
+/* DIVIDER */
+.divider { width: 100%; height: 1px; background: rgba(255,255,255,0.06); margin: 20px 0; }
+
+/* CTA */
+.cta-section { text-align: center; padding: 60px 20px 80px; background: linear-gradient(180deg, #0a0f1a, #111827); }
+.cta-section h2 { font-size: 32px; font-weight: 900; margin-bottom: 12px; }
+.cta-section h2 .g { color: #c9a84c; }
+.cta-section p { color: #94a3b8; font-size: 15px; max-width: 500px; margin: 0 auto 24px; }
+.cta-btn { display: inline-block; background: linear-gradient(135deg, #c9a84c, #a08339); color: #0a0f1a; padding: 16px 40px; border-radius: 10px; font-size: 16px; font-weight: 800; text-decoration: none; }
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+.cta-sub { font-size: 12px; color: #64748b; margin-top: 10px; }
+
+@media (max-width: 768px) { .modes-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 30px; } }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <span>Tranchi AI — All AI Modes & Features</span>
+  <span class="hl">✓ 44-200+ AI Agents Working For You</span>
+</div>
+
+<div class="hero">
+  <div class="hero-badge">AI Modes</div>
+  <h1>Every Way <span class="g">Tranchi AI</span> Works For You</h1>
+  <p>13 AI-powered tools across outreach, analysis, and operations. From contacting sellers on autopilot to underwriting deals in 15 seconds to managing your entire pipeline.</p>
+</div>
+
+<!-- ========== OUTREACH & DEALS ========== -->
+<div class="section">
+  <div class="section-label">Outreach & Deals</div>
+  <div class="section-title">AI That <span class="g">Finds and Contacts</span> Sellers For You</div>
+  <div class="section-sub">These tools find deals, reach out to sellers, and book opportunities on your calendar — automatically.</div>
+
+  <div class="modes-grid">
+
+    <div class="mode-card featured mode-card-full">
+      <div class="mc-top">
+        <div class="mc-icon">🤖</div>
+        <div class="mc-title">Autopilot Mode <span class="badge-key">Key Feature</span></div>
+      </div>
+      <div class="mc-desc">The single most powerful feature in Tranchi. AI texts and calls motivated sellers every day on your behalf, handles the back-and-forth conversation, and books phone calls on your calendar when sellers express interest. You wake up to opportunities — not cold calls.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> 25-250 targeted outreach per day (depending on package)</li>
+        <li><span class="check">✓</span> AI handles the full conversation — asking about property, discussing situation, building rapport</li>
+        <li><span class="check">✓</span> 14-day follow-up sequence — 7+ touches per lead, never misses a follow-up</li>
+        <li><span class="check">✓</span> Cold calling capability — AI now calls sellers, not just texts <span class="badge-new">New</span></li>
+        <li><span class="check">✓</span> Only notifies you when a seller shows positive response — no noise</li>
+        <li><span class="check">✓</span> All leads flow into built-in CRM automatically</li>
+        <li><span class="check">✓</span> A2P and TCPA compliant</li>
+      </ul>
+      <div class="mc-stat"><span>Yazan turned on Autopilot and had 12 motivated sellers respond in 3 days — from zero manual outreach.</span></div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">⭐</div>
+        <div class="mc-title">For You Page</div>
+      </div>
+      <div class="mc-desc">Your personal deal feed. 5-20 AI agents (depending on package) search on-market deals, off-market deals, and the internet every day to find properties that match your exact buy box and investment strategy.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> 1-5 new deals every day (Operator) or every 2-3 days (Starter)</li>
+        <li><span class="check">✓</span> Custom to your strategy — wholesaling, BRRRR, buy & hold</li>
+        <li><span class="check">✓</span> Works in ANY market — not limited to Tranchi's suggested markets</li>
+        <li><span class="check">✓</span> Deals nobody else sees — your agents find them specifically for you</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">📨</div>
+        <div class="mc-title">AI Offer Negotiation <span class="badge-new">New</span></div>
+      </div>
+      <div class="mc-desc">AI generates and places offers on properties. Crafts personalized messages based on the deal type and seller situation. Handles initial negotiation automatically.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> One-click offer placement on any deal</li>
+        <li><span class="check">✓</span> Personalized messaging per distress signal type</li>
+        <li><span class="check">✓</span> A/B tested copy that drives higher response rates</li>
+        <li><span class="check">✓</span> Handles initial back-and-forth before you get involved</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== ANALYSIS & INTELLIGENCE ========== -->
+<div class="section">
+  <div class="section-label">Analysis & Intelligence</div>
+  <div class="section-title">AI That <span class="g">Analyzes Every Deal</span> in Seconds</div>
+  <div class="section-sub">Underwrite deals, structure financing, and get expert-level analysis without spending hours on spreadsheets.</div>
+
+  <div class="modes-grid">
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">📊</div>
+        <div class="mc-title">AI Underwriting Engine</div>
+      </div>
+      <div class="mc-desc">Click on any property and get a full deal analysis in 15 seconds. Everything an investor needs to decide if a deal is worth pursuing — without checking 5+ different websites manually.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Purchase price, estimated appraised value, after-repair value</li>
+        <li><span class="check">✓</span> Rent estimate based on area comps</li>
+        <li><span class="check">✓</span> Monthly cash flow after all expenses (PITI, PM, maintenance)</li>
+        <li><span class="check">✓</span> Cap rate, ROI, crime data, appreciation rates</li>
+        <li><span class="check">✓</span> Title company pre-lien checks — know about liens before paying for a title search</li>
+        <li><span class="check">✓</span> Same AI appraisal provider as Better Mortgage (~90% accurate)</li>
+        <li><span class="check">✓</span> Data sources shown on every card (ATTOM, census, ZIP comps)</li>
+      </ul>
+      <div class="mc-stat"><span>On average it takes an investor 3-5 hours to underwrite one deal manually. Tranchi does it in 15 seconds.</span></div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">🔎</div>
+        <div class="mc-title">Deep Due Diligence <span class="badge-new">New</span></div>
+      </div>
+      <div class="mc-desc">Goes beyond surface-level analysis. Reads the actual deed of trust, scrapes bankruptcy dockets, and scores probate cases on probability of selling cheap. Enterprise-level research on every lead.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Deed of trust analysis — verifies equity spread, filters upside-down properties</li>
+        <li><span class="check">✓</span> Bankruptcy docket scraping — monitors Chapter 7/13 for dismissal timing</li>
+        <li><span class="check">✓</span> Probate depth scoring — single vs joint owner, with vs without will</li>
+        <li><span class="check">✓</span> 9 distress signals tracked simultaneously</li>
+        <li><span class="check">✓</span> Historical transaction data to identify hot pockets</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">💬</div>
+        <div class="mc-title">AI Mentor Chat</div>
+      </div>
+      <div class="mc-desc">Tranchi's own real estate LLM. Built on proprietary mortgage transaction data from 20,000+ deals — not public internet data. Like ChatGPT but it actually argues with you on bad deals instead of just agreeing.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Ask anything about real estate investing, deal structuring, financing</li>
+        <li><span class="check">✓</span> Give it an address + strategy → it tells you the best structure with numbers</li>
+        <li><span class="check">✓</span> Available 24/7 — like having a real estate mentor on speed dial</li>
+        <li><span class="check">✓</span> Can launch agents to do tasks on your behalf</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">🏦</div>
+        <div class="mc-title">Loan Officer Bot <span class="badge-new">New</span></div>
+      </div>
+      <div class="mc-desc">AI structures the best financing for every deal — DSCR, hard money, seller financing, internal assignment. Toggle between options and see exactly what each looks like.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Recommends best financing per deal automatically</li>
+        <li><span class="check">✓</span> Toggle between DSCR, hard money, seller finance, cash, hybrid</li>
+        <li><span class="check">✓</span> Built on 20,000+ mortgage transactions worth of data</li>
+        <li><span class="check">✓</span> Shows monthly payment, cash flow, and ROI per financing option</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== COMMUNICATION & OPS ========== -->
+<div class="section">
+  <div class="section-label">Communication & Operations</div>
+  <div class="section-title">AI That <span class="g">Runs Your Business</span> On Autopilot</div>
+  <div class="section-sub">Text it, call it, let it manage your paperwork and pipeline. Tranchi meets you wherever you are.</div>
+
+  <div class="modes-grid">
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">📱</div>
+        <div class="mc-title">Text Tranchi (SMS)</div>
+      </div>
+      <div class="mc-desc">Text Tranchi directly from your phone. Ask for deals, check your Autopilot pipeline, get updates on seller responses, request deal analysis — all via SMS.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> "Send me 5 tax deed properties in Memphis every morning"</li>
+        <li><span class="check">✓</span> "How's my Autopilot pipeline looking?"</li>
+        <li><span class="check">✓</span> "Do I have any new motivated seller responses?"</li>
+        <li><span class="check">✓</span> Real estate investing from your pocket</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">📞</div>
+        <div class="mc-title">Call Tranchi (Voice AI)</div>
+      </div>
+      <div class="mc-desc">Call Tranchi and talk to it. Ask about deals, get pipeline updates, discuss strategy, review how your AI agents are performing. Voice-based real estate AI that responds in real time.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Voice conversations about deals and strategy</li>
+        <li><span class="check">✓</span> Performance reports on your AI agents</li>
+        <li><span class="check">✓</span> Task updates and pipeline status</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">📝</div>
+        <div class="mc-title">Transaction Coordinator Bot <span class="badge-new">New</span></div>
+      </div>
+      <div class="mc-desc">AI manages your deal paperwork, document collection, and closing coordination. Keeps every transaction organized and on schedule without you chasing docs.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Tracks all documents needed for each deal</li>
+        <li><span class="check">✓</span> Coordinates with title companies and lenders</li>
+        <li><span class="check">✓</span> Sends reminders and follows up on missing docs</li>
+        <li><span class="check">✓</span> Keeps every deal organized in one place</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">🖥</div>
+        <div class="mc-title">Browser Agent</div>
+      </div>
+      <div class="mc-desc">Tranchi lives on your computer as a browser extension. Organizes your real estate files, loan documents, replies to emails, and submits applications on your behalf.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Reviews and sends emails related to your deals</li>
+        <li><span class="check">✓</span> Organizes loan files and documents</li>
+        <li><span class="check">✓</span> Submits applications on your behalf (won't sign anything)</li>
+        <li><span class="check">✓</span> Like a full-time assistant that never sleeps</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">📋</div>
+        <div class="mc-title">Built-in CRM <span class="badge-new">New</span></div>
+      </div>
+      <div class="mc-desc">All your leads, conversations, and opportunities in one pipeline. Autopilot Mode feeds directly into the CRM so every motivated seller response is tracked and organized.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Autopilot leads flow in automatically</li>
+        <li><span class="check">✓</span> Track deals from first contact to closing</li>
+        <li><span class="check">✓</span> Opportunity staging — hot, warm, under contract, closed</li>
+        <li><span class="check">✓</span> Never lose a lead or forget a follow-up</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">👷</div>
+        <div class="mc-title">Pro Finder</div>
+      </div>
+      <div class="mc-desc">Find vetted local professionals in any market. Contractors, real estate agents, title companies, plumbers, inspectors, property managers — 5-10 highly rated pros in any area.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Search any zip code or city</li>
+        <li><span class="check">✓</span> Contractors, agents, title companies, inspectors, PMs</li>
+        <li><span class="check">✓</span> Ratings and reviews included</li>
+        <li><span class="check">✓</span> Build your team in any market in minutes</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== BROWSE DEALS ========== -->
+<div class="section">
+  <div class="section-label">Deal Discovery</div>
+  <div class="section-title">AI That <span class="g">Scans Every Source</span> Every Day</div>
+  <div class="section-sub">These tools scan thousands of government databases, auction sites, and off-market sources to put the best deals in your dashboard every morning.</div>
+
+  <div class="modes-grid">
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">🔍</div>
+        <div class="mc-title">Browse Deals</div>
+      </div>
+      <div class="mc-desc">On-market and off-market deals curated in markets identified by our mortgage department as the best places to invest. Based on real transaction data, tenant demand, and Section 8 voucher availability.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Markets based on where our $2B fund sees transactions closing</li>
+        <li><span class="check">✓</span> 13 deal types: turnkey, expired, stale, FSBO, distressed, gov seized, bank seized, tax deed, sheriff sale, probate, motivated sellers, commercial, multifamily</li>
+        <li><span class="check">✓</span> Every deal pre-underwritten with full numbers</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">🗺</div>
+        <div class="mc-title">Live Hub <span class="badge-new">New</span></div>
+      </div>
+      <div class="mc-desc">Real-time interactive map showing distress signals across your zip codes. Updated every time you log in. Zoom into neighborhoods to see where distress is concentrating.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Live data points updated continuously</li>
+        <li><span class="check">✓</span> Neighborhood-level zoom</li>
+        <li><span class="check">✓</span> Hub chatbot — "How many foreclosures opened in my zip codes today?"</li>
+        <li><span class="check">✓</span> Enterprise feature</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">🏚</div>
+        <div class="mc-title">Foreclosure Monitor <span class="badge-new">New</span></div>
+      </div>
+      <div class="mc-desc">AI monitors county foreclosure filings daily. Knows about new filings before anyone else — speed to lead is everything.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> New filings detected same-day</li>
+        <li><span class="check">✓</span> Sub-trustee appointments and new case filings</li>
+        <li><span class="check">✓</span> Nobody in your market will know about a hot foreclosure before you</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">📋</div>
+        <div class="mc-title">Tax Deed Scanner <span class="badge-new">New</span></div>
+      </div>
+      <div class="mc-desc">Scans tax deed auctions across 3,143 counties. Finds properties where the opening bid is the unpaid taxes — not the market value. A $3,000 house worth $89,000.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Every county, every auction, every day</li>
+        <li><span class="check">✓</span> Pre-underwritten with estimated value and cash flow</li>
+        <li><span class="check">✓</span> Same weapon hedge funds use — now it works for you</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">🤝</div>
+        <div class="mc-title">Cash Buyer Matching</div>
+      </div>
+      <div class="mc-desc">Matches your wholesale deals with active cash buyers based on their last 12 months of verified real estate transactions. Access to data on 130,000+ investor transactions per month.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Nationwide transaction data through our mortgage company</li>
+        <li><span class="check">✓</span> Matched by market, property type, and price range</li>
+        <li><span class="check">✓</span> Can blast deals to matched buyers when you lock a contract</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-top">
+        <div class="mc-icon">🏘</div>
+        <div class="mc-title">Tenant Placement & Screening</div>
+      </div>
+      <div class="mc-desc">List your rental property on Zillow, Facebook Marketplace, and affordable housing sites. Screen applicants automatically with a scoring system.</div>
+      <ul class="mc-features">
+        <li><span class="check">✓</span> Auto-list on Zillow, Facebook, affordablehousing.com</li>
+        <li><span class="check">✓</span> Score tenants: Section 8, disability programs, market rate</li>
+        <li><span class="check">✓</span> Talk to 7+ scored tenants only — skip the rest</li>
+        <li><span class="check">✓</span> Section 8 tenants stay avg 7.5 years, government-guaranteed rent</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>44-200+ AI Agents <span class="g">Working For You</span></h2>
+  <p>Start with Pro for $1 to see the AI in action. Or book a strategy call and we'll build a custom plan with full AI power.</p>
+  <a href="#" class="cta-btn">Book a Strategy Call</a>
+  <div class="cta-sub">Or start with Tranchi Pro for $1 — browse deals, explore the AI, upgrade when ready.</div>
+</div>
+
+</body>
+</html>
