@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tranchi AI — Navigation V3</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #0a0f1a; color: #fff; }
+
+.top-bar { background: linear-gradient(90deg, #0d1420, #111d2e); display: flex; justify-content: center; align-items: center; gap: 16px; padding: 8px 20px; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.top-bar span { color: #94a3b8; }
+.top-bar .hl { color: #22c55e; font-weight: 600; }
+.top-bar .tb-cta { background: #c9a84c; color: #0a0f1a; padding: 4px 14px; border-radius: 4px; font-size: 11px; font-weight: 700; text-decoration: none; }
+
+.main-nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 28px; border-bottom: 1px solid rgba(255,255,255,0.06); position: relative; z-index: 100; }
+.nav-logo { font-size: 22px; font-weight: 900; color: #c9a84c; letter-spacing: 1.5px; display: flex; align-items: center; gap: 8px; }
+.nav-links { display: flex; align-items: center; gap: 2px; }
+.nav-link { color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 12px; border-radius: 6px; transition: all 0.15s; }
+.nav-link:hover { color: #fff; background: rgba(255,255,255,0.05); }
+
+.dw { position: relative; }
+.dt { color: #94a3b8; font-size: 13px; font-weight: 600; padding: 8px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.15s; }
+.dt:hover { color: #fff; background: rgba(255,255,255,0.05); }
+.dt .ar { font-size: 10px; transition: transform 0.2s; }
+.dw:hover .dt { color: #fff; background: rgba(255,255,255,0.05); }
+.dw:hover .dt .ar { transform: rotate(180deg); }
+
+.dp { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 20px; opacity: 0; visibility: hidden; transition: all 0.2s; box-shadow: 0 20px 60px rgba(0,0,0,0.5); margin-top: 8px; }
+.dw:hover .dp { opacity: 1; visibility: visible; margin-top: 4px; }
+
+/* BADGES */
+.badge-new { background: #22c55e; color: #0a0f1a; font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; margin-left: 4px; vertical-align: middle; letter-spacing: 0.5px; }
+.badge-hot { background: #ef4444; color: #fff; font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; margin-left: 4px; vertical-align: middle; letter-spacing: 0.5px; }
+.badge-key { background: #c9a84c; color: #0a0f1a; font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; margin-left: 4px; vertical-align: middle; letter-spacing: 0.5px; }
+
+/* ---- DEAL TYPES DROPDOWN ---- */
+.deals-dp { width: 820px; }
+.deals-section-label { font-size: 10px; font-weight: 700; color: #c9a84c; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(201,168,76,0.15); }
+.deals-section-label-sub { font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 8px; }
+
+/* Featured 4 cards */
+.featured-deals { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.fd-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.15s; text-decoration: none; display: block; }
+.fd-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(201,168,76,0.3); transform: translateY(-1px); }
+.fd-top { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.fd-icon { font-size: 20px; }
+.fd-title { font-size: 13px; font-weight: 700; color: #e2e8f0; }
+.fd-desc { font-size: 10.5px; color: #64748b; line-height: 1.4; }
+.fd-stat { font-size: 10px; color: #c9a84c; font-weight: 600; margin-top: 4px; }
+
+/* All other deals grid */
+.other-deals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+.od-item { display: flex; align-items: center; gap: 7px; padding: 7px 10px; border-radius: 6px; cursor: pointer; transition: background 0.15s; text-decoration: none; }
+.od-item:hover { background: rgba(255,255,255,0.04); }
+.od-icon { font-size: 14px; flex-shrink: 0; }
+.od-t { font-size: 11.5px; font-weight: 600; color: #e2e8f0; }
+.od-d { font-size: 9.5px; color: #64748b; }
+
+/* All deals button */
+.all-btn { background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.15s; text-decoration: none; display: block; }
+.all-btn:hover { background: rgba(201,168,76,0.12); }
+.all-btn .t { font-size: 12px; font-weight: 700; color: #c9a84c; }
+.all-btn .d { font-size: 10px; color: #64748b; margin-top: 2px; }
+
+/* ---- AI MODES DROPDOWN ---- */
+.ai-dp { width: 700px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+.ai-col { padding: 0 14px; border-right: 1px solid rgba(255,255,255,0.04); }
+.ai-col:last-child { border-right: none; }
+.ai-label { font-size: 10px; font-weight: 700; color: #c9a84c; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(201,168,76,0.15); }
+.ai-item { display: flex; align-items: flex-start; gap: 8px; padding: 7px 8px; border-radius: 6px; cursor: pointer; transition: background 0.15s; text-decoration: none; margin-bottom: 1px; }
+.ai-item:hover { background: rgba(255,255,255,0.04); }
+.ai-icon { font-size: 15px; flex-shrink: 0; width: 20px; text-align: center; margin-top: 1px; }
+.ai-t { font-size: 12px; font-weight: 600; color: #e2e8f0; line-height: 1.3; }
+.ai-d { font-size: 10px; color: #64748b; line-height: 1.3; margin-top: 1px; }
+
+/* ---- RESOURCES DROPDOWN ---- */
+.res-dp { width: 740px; display: grid; grid-template-columns: 1fr 1fr 220px; gap: 0; }
+.res-col { padding: 0 14px; border-right: 1px solid rgba(255,255,255,0.04); }
+.res-col:last-child { border-right: none; padding: 0 0 0 10px; }
+.res-label { font-size: 10px; font-weight: 700; color: #c9a84c; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(201,168,76,0.15); }
+.res-label-sub { font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 1px; margin: 14px 0 8px; }
+.res-item { display: flex; align-items: flex-start; gap: 8px; padding: 6px 8px; border-radius: 6px; cursor: pointer; transition: background 0.15s; text-decoration: none; margin-bottom: 1px; }
+.res-item:hover { background: rgba(255,255,255,0.04); }
+.ri-icon { font-size: 14px; flex-shrink: 0; width: 18px; text-align: center; margin-top: 1px; }
+.ri-t { font-size: 12px; font-weight: 600; color: #e2e8f0; line-height: 1.3; }
+.ri-d { font-size: 10px; color: #64748b; line-height: 1.3; margin-top: 1px; }
+
+.fc { background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.12); border-radius: 10px; padding: 12px; }
+.fc-l { font-size: 9px; font-weight: 700; color: #c9a84c; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+.fc-img { background: #1a2332; border-radius: 6px; height: 60px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; font-size: 20px; }
+.fc-t { font-size: 12px; font-weight: 700; color: #e2e8f0; line-height: 1.3; margin-bottom: 3px; }
+.fc-d { font-size: 10px; color: #64748b; line-height: 1.4; margin-bottom: 5px; }
+.fc-a { font-size: 10px; color: #c9a84c; font-weight: 700; text-decoration: none; }
+.fc-a:hover { text-decoration: underline; }
+
+.nav-right { display: flex; align-items: center; gap: 8px; }
+.nb-o { color: #c9a84c; border: 1px solid rgba(201,168,76,0.3); padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none; }
+.nb-o:hover { background: rgba(201,168,76,0.08); }
+.nb-s { background: #c9a84c; color: #0a0f1a; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none; }
+.nb-g { color: #94a3b8; font-size: 13px; font-weight: 600; text-decoration: none; padding: 8px 10px; display: flex; align-items: center; gap: 4px; }
+.nb-g:hover { color: #fff; }
+
+.hero { text-align: center; padding: 100px 20px; max-width: 800px; margin: 0 auto; }
+.hero h1 { font-size: 48px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+.hero h1 .g { color: #c9a84c; }
+.hero p { color: #94a3b8; font-size: 17px; line-height: 1.7; max-width: 600px; margin: 0 auto 30px; }
+.hb { display: flex; gap: 12px; justify-content: center; }
+.hb a { padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; text-decoration: none; }
+.hb .p { background: #c9a84c; color: #0a0f1a; }
+.hb .s { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+.go { border: 1px solid #c9a84c; color: #c9a84c; display: inline-block; margin-top: 12px; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; text-decoration: none; }
+.sp { margin-top: 40px; }
+.sp .st { color: #f59e0b; font-size: 18px; }
+.sp .rt { font-size: 15px; font-weight: 700; margin-left: 6px; }
+.sp .us { font-size: 13px; color: #64748b; margin-top: 8px; }
+.sp .us strong { color: #e2e8f0; }
+
+@media (max-width: 1024px) { .nav-links, .nav-right { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <span>AI-Powered Real Estate Investing</span>
+  <span class="hl">✓ No AI experience needed</span>
+  <a href="#" class="tb-cta">Browse Deals</a>
+</div>
+
+<nav class="main-nav">
+  <div class="nav-logo"><span>🏛</span> TRANCHI</div>
+  <div class="nav-links">
+    <a href="#" class="nav-link">Browse Deals</a>
+    <a href="#" class="nav-link nb-g">▶ Watch Demo</a>
+
+    <!-- ========== 1. DEAL TYPES ========== -->
+    <div class="dw">
+      <div class="dt">Deal Types <span class="ar">▾</span></div>
+      <div class="dp deals-dp">
+
+        <div class="deals-section-label">Featured Deal Types</div>
+
+        <div class="featured-deals">
+          <a href="#" class="fd-card">
+            <div class="fd-top"><div class="fd-icon">🏚</div><div class="fd-title">Foreclosures <span class="badge-hot">Hot</span></div></div>
+            <div class="fd-desc">Pre-foreclosures, sheriff sales, bank seized. AI monitors county filings daily and alerts you first.</div>
+            <div class="fd-stat">227,000+ filings in 2026 — all-time high</div>
+          </a>
+          <a href="#" class="fd-card">
+            <div class="fd-top"><div class="fd-icon">📋</div><div class="fd-title">Tax Deed Auctions <span class="badge-hot">Hot</span></div></div>
+            <div class="fd-desc">Properties auctioned for unpaid taxes. Opening bids = tax owed, not market value.</div>
+            <div class="fd-stat">Scanning auctions across 3,143 counties</div>
+          </a>
+          <a href="#" class="fd-card">
+            <div class="fd-top"><div class="fd-icon">⚖️</div><div class="fd-title">Probate Properties <span class="badge-new">New</span></div></div>
+            <div class="fd-desc">Inherited properties. AI scores single vs joint, will vs no will — probability of selling cheap.</div>
+            <div class="fd-stat">Deep due diligence on every probate case</div>
+          </a>
+          <a href="#" class="fd-card">
+            <div class="fd-top"><div class="fd-icon">🎯</div><div class="fd-title">Motivated Sellers <span class="badge-hot">Hot</span></div></div>
+            <div class="fd-desc">Missed payments, tax liens, divorces, vacant, tired landlords. AI-scored 1-10. Live scraped.</div>
+            <div class="fd-stat">Autopilot reaches 25-250 sellers/day for you</div>
+          </a>
+        </div>
+
+        <div class="deals-section-label-sub">Off-Market Deals</div>
+        <div class="other-deals">
+          <a href="#" class="od-item"><div class="od-icon">🏛</div><div><div class="od-t">Government Seized</div><div class="od-d">30-70% below market</div></div></a>
+          <a href="#" class="od-item"><div class="od-icon">🏦</div><div><div class="od-t">Bank Seized / REO</div><div class="od-d">40-70% below market</div></div></a>
+          <a href="#" class="od-item"><div class="od-icon">⚡</div><div><div class="od-t">Sheriff Sales <span class="badge-new">New</span></div><div class="od-d">Court-ordered sales</div></div></a>
+        </div>
+
+        <div class="deals-section-label-sub">On-Market Deals</div>
+        <div class="other-deals">
+          <a href="#" class="od-item"><div class="od-icon">🏠</div><div><div class="od-t">Turnkey / Section 8</div><div class="od-d">Cash flowing from day one</div></div></a>
+          <a href="#" class="od-item"><div class="od-icon">⏰</div><div><div class="od-t">Expired Listings <span class="badge-new">New</span></div><div class="od-d">Never sold — motivated</div></div></a>
+          <a href="#" class="od-item"><div class="od-icon">📅</div><div><div class="od-t">Stale Listings (60+ days) <span class="badge-new">New</span></div><div class="od-d">Great for seller financing</div></div></a>
+          <a href="#" class="od-item"><div class="od-icon">🔑</div><div><div class="od-t">For Sale by Owner</div><div class="od-d">Direct to seller</div></div></a>
+          <a href="#" class="od-item"><div class="od-icon">🔨</div><div><div class="od-t">Value Add / Distressed</div><div class="od-d">AI analyzes listing photos</div></div></a>
+          <a href="#" class="od-item"><div class="od-icon">🏗</div><div><div class="od-t">Commercial & Multifamily <span class="badge-new">New</span></div><div class="od-d">50+ units · Enterprise</div></div></a>
+        </div>
+
+        <a href="#" class="all-btn">
+          <div class="t">View All 13 Deal Types →</div>
+          <div class="d">Dedicated pages for foreclosures, tax deeds, probate & motivated sellers. Combined page for all others.</div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- ========== 2. AI MODES ========== -->
+    <div class="dw">
+      <div class="dt">AI Modes <span class="ar">▾</span></div>
+      <div class="dp ai-dp">
+
+        <div class="ai-col">
+          <div class="ai-label">Outreach & Deals</div>
+          <a href="#" class="ai-item"><div class="ai-icon">🤖</div><div><div class="ai-t">Autopilot Mode <span class="badge-key">Key</span></div><div class="ai-d">AI texts & calls sellers, books calls on your calendar. 25-250/day.</div></div></a>
+          <a href="#" class="ai-item"><div class="ai-icon">📞</div><div><div class="ai-t">AI Cold Calling <span class="badge-new">New</span></div><div class="ai-d">Autopilot now calls sellers — not just texts</div></div></a>
+          <a href="#" class="ai-item"><div class="ai-icon">⭐</div><div><div class="ai-t">For You Page</div><div class="ai-d">Personalized deal feed updated daily</div></div></a>
+          <a href="#" class="ai-item"><div class="ai-icon">📨</div><div><div class="ai-t">AI Offer Negotiation <span class="badge-new">New</span></div><div class="ai-d">Generate & negotiate offers automatically</div></div></a>
+        </div>
+
+        <div class="ai-col">
+          <div class="ai-label">Analysis & Intelligence</div>
+          <a href="#" class="ai-item"><div class="ai-icon">📊</div><div><div class="ai-t">AI Underwriting Engine</div><div class="ai-d">15-second analysis + title pre-lien checks</div></div></a>
+          <a href="#" class="ai-item"><div class="ai-icon">🔎</div><div><div class="ai-t">Deep Due Diligence <span class="badge-new">New</span></div><div class="ai-d">Deed of trust, bankruptcy dockets, probate depth</div></div></a>
+          <a href="#" class="ai-item"><div class="ai-icon">💬</div><div><div class="ai-t">AI Mentor Chat</div><div class="ai-d">Real estate LLM — ask anything 24/7</div></div></a>
+          <a href="#" class="ai-item"><div class="ai-icon">🏦</div><div><div class="ai-t">Loan Officer Bot <span class="badge-new">New</span></div><div class="ai-d">AI structures financing for every deal</div></div></a>
+        </div>
+
+        <div class="ai-col">
+          <div class="ai-label">Communication & Ops</div>
+          <a href="#" class="ai-item"><div class="ai-icon">📱</div><div><div class="ai-t">Text Tranchi</div><div class="ai-d">Deals & updates from your phone via SMS</div></div></a>
+          <a href="#" class="ai-item"><div class="ai-icon">📞</div><div><div class="ai-t">Call Tranchi</div><div class="ai-d">Voice AI for deals, strategy & reports</div></div></a>
+          <a href="#" class="ai-item"><div class="ai-icon">📝</div><div><div class="ai-t">Transaction Coordinator <span class="badge-new">New</span></div><div class="ai-d">AI manages deal paperwork & docs</div></div></a>
+          <a href="#" class="ai-item"><div class="ai-icon">🖥</div><div><div class="ai-t">Browser Agent</div><div class="ai-d">AI assistant on your computer</div></div></a>
+          <a href="#" class="ai-item"><div class="ai-icon">📋</div><div><div class="ai-t">CRM <span class="badge-new">New</span></div><div class="ai-d">Built-in pipeline management</div></div></a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== 3. RESOURCES ========== -->
+    <div class="dw">
+      <div class="dt">Resources <span class="ar">▾</span></div>
+      <div class="dp res-dp">
+
+        <div class="res-col">
+          <div class="res-label">Learn</div>
+          <a href="#" class="res-item"><div class="ri-icon">🎓</div><div><div class="ri-t">Free Mini Course <span class="badge-new">New</span></div><div class="ri-d">5-video AI real estate training</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">▶</div><div><div class="ri-t">Demo Video</div><div class="ri-d">Watch the AI in action</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">📈</div><div><div class="ri-t">Case Studies</div><div class="ri-d">Real member results with numbers</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">📝</div><div><div class="ri-t">Blog</div><div class="ri-d">Market insights & deal breakdowns</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">🏫</div><div><div class="ri-t">Tranchi University</div><div class="ri-d">40+ hrs, AI & RE certifications</div></div></a>
+
+          <div class="res-label-sub">Strategies — How to Make Money</div>
+          <a href="#" class="res-item"><div class="ri-icon">🔄</div><div><div class="ri-t">Contract Flipping <span class="badge-hot">Hot</span></div><div class="ri-d">Flip deals for $5K-$30K profit. $0 needed.</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">🏗</div><div><div class="ri-t">BRRRR / Peacock Strategy</div><div class="ri-d">Buy cheap, rehab, rent, refinance, repeat</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">💎</div><div><div class="ri-t">Internal Assignments <span class="badge-new">New</span></div><div class="ri-d">Get paid at closing + keep the property</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">🤝</div><div><div class="ri-t">Seller Financing <span class="badge-new">New</span></div><div class="ri-d">5% down, seller acts as bank</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">🏠</div><div><div class="ri-t">Turnkey Rentals</div><div class="ri-d">Buy & hold with Section 8 tenants</div></div></a>
+        </div>
+
+        <div class="res-col">
+          <div class="res-label">Coaching & Financing</div>
+          <a href="#" class="res-item"><div class="ri-icon">👨‍🏫</div><div><div class="ri-t">1-on-1 RE Coaching <span class="badge-new">New</span></div><div class="ri-d">Matched to your strategy</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">📅</div><div><div class="ri-t">Daily Live Calls <span class="badge-new">New</span></div><div class="ri-d">4-7 millionaire RE coaches</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">🏦</div><div><div class="ri-t">DSCR Loans ($2B Fund)</div><div class="ri-d">Property qualifies, not you</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">💵</div><div><div class="ri-t">Hard Money & Private</div><div class="ri-d">90-100% deal financing</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">💳</div><div><div class="ri-t">0% Business Credit</div><div class="ri-d">Unsecured lines, 0% for 12-18 mo</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">📊</div><div><div class="ri-t">Credit Optimization <span class="badge-new">New</span></div><div class="ri-d">Improve your score for better terms</div></div></a>
+
+          <div class="res-label-sub">Support & Company</div>
+          <a href="#" class="res-item"><div class="ri-icon">❓</div><div><div class="ri-t">Help & Support</div><div class="ri-d">Get help with your account</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">🏢</div><div><div class="ri-t">About Us</div><div class="ri-d">Meet the founders & our story</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">🎥</div><div><div class="ri-t">Customer Stories</div><div class="ri-d">Video testimonials from members</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">💎</div><div><div class="ri-t">Pricing</div><div class="ri-d">Pro vs Operator — see plans</div></div></a>
+          <a href="#" class="res-item"><div class="ri-icon">🗓</div><div><div class="ri-t">Book a Strategy Call</div><div class="ri-d">Talk to our team</div></div></a>
+        </div>
+
+        <div class="res-col">
+          <div class="fc">
+            <div class="fc-l">New Feature</div>
+            <div class="fc-img">🤖📞</div>
+            <div class="fc-t">Autopilot Now Cold Calls Sellers</div>
+            <div class="fc-d">The AI doesn't just text — it calls motivated sellers and books appointments.</div>
+            <a href="#" class="fc-a">Learn more →</a>
+          </div>
+          <div class="fc" style="margin-top: 8px;">
+            <div class="fc-l">Deal of the Week</div>
+            <div class="fc-img">🏠💰</div>
+            <div class="fc-t">$3,988 House Worth $113K</div>
+            <div class="fc-d">Sheriff sale in Jacksonville, FL. Cash flow $708/mo.</div>
+            <a href="#" class="fc-a">Browse deals →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <a href="#" class="nav-link">Chat Bot</a>
+  </div>
+
+  <div class="nav-right">
+    <a href="#" class="nb-o">Pricing</a>
+    <a href="#" class="nb-s">Browse Deals</a>
+    <a href="#" class="nb-g">▶ Watch Demo</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>The <span class="g">AI</span> That Helps You<br><span class="g">Find Gov-Seized Deals</span></h1>
+  <p>Tranchi AI is a collection of 44 different AI Agents that scan hidden government databases, auction sites, and off-market listings to find you the most profitable real estate deals — saving you hundreds of hours of searching — and handling 95% of the work for you.</p>
+  <div class="hb">
+    <a href="#" class="s">▶ Watch Demo</a>
+    <a href="#" class="p">🔍 Browse Deals</a>
+  </div>
+  <a href="#" class="go">Start Now</a>
+  <div class="sp">
+    <div><span class="st">★★★★★</span> <span class="rt">5.0 rating</span></div>
+    <div class="us">Used by <strong>2,742+ users</strong> to generate an extra <strong>$20K/mo</strong></div>
+  </div>
+</div>
+
+</body>
+</html>
